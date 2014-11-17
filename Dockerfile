@@ -24,5 +24,5 @@ RUN go build
 
 EXPOSE 9000
 
-ENTRYPOINT [ "bin/consul-alerts", "--alert-addr=0.0.0.0:9000" ]
+ENTRYPOINT [ "./consul-alerts", "--alert-addr=0.0.0.0:9000" ]
 CMD []
