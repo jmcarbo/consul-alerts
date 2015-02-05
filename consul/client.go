@@ -124,10 +124,8 @@ func (c *ConsulAlertClient) LoadConfig() {
 				valErr = loadCustomValue(&config.Notifiers.Slack.Enabled, val, ConfigTypeBool)
 			case "consul-alerts/config/notifiers/slack/cluster-name":
 				valErr = loadCustomValue(&config.Notifiers.Slack.ClusterName, val, ConfigTypeString)
-			case "consul-alerts/config/notifiers/slack/team":
-				valErr = loadCustomValue(&config.Notifiers.Slack.Team, val, ConfigTypeString)
-			case "consul-alerts/config/notifiers/slack/token":
-				valErr = loadCustomValue(&config.Notifiers.Slack.Token, val, ConfigTypeString)
+			case "consul-alerts/config/notifiers/slack/url":
+				valErr = loadCustomValue(&config.Notifiers.Slack.Url, val, ConfigTypeString)
 			case "consul-alerts/config/notifiers/slack/channel":
 				valErr = loadCustomValue(&config.Notifiers.Slack.Channel, val, ConfigTypeString)
 			case "consul-alerts/config/notifiers/slack/username":
@@ -219,6 +217,11 @@ func (c *ConsulAlertClient) UpdateCheckData() {
 		existing := status != nil
 
 		localHealth := Check(*health)
+
+		if c.IsBlacklisted(&localHealth) {
+			log.Printf("%s:%s:%s is blacklisted.", node, service, check)
+			return
+		}
 
 		if !existing {
 			c.registerHealthCheck(key, &localHealth)
@@ -427,8 +430,6 @@ func (c *ConsulAlertClient) IsBlacklisted(check *Check) bool {
 
 	singleKey := fmt.Sprintf("consul-alerts/config/checks/blacklist/single/%s/%s/%s", node, service, checkId)
 	singleBlacklisted := c.checkKeyExists(singleKey)
-
-	log.Printf("%s:%s:%s is blacklisted by = node: %v, service: %v, check: %v, specific: %v", node, service, checkId, nodeBlacklisted, serviceBlacklisted, checkBlacklisted, singleBlacklisted)
 
 	return nodeBlacklisted || serviceBlacklisted || checkBlacklisted || singleBlacklisted
 }
