@@ -45,3 +45,6 @@ release: package
 	curl -T "build/bin/linux-386/${VERSION}/${APP_NAME}" -u "${ACCESS_KEY}" "https://api.bintray.com/content/darkcrux/generic/consul-alerts/v${VERSION}/consul-alerts-${VERSION}-linux-386.tar"
 	curl -T "build/bin/linux-amd64/${VERSION}/${APP_NAME}" -u "${ACCESS_KEY}" "https://api.bintray.com/content/darkcrux/generic/consul-alerts/v${VERSION}/consul-alerts-${VERSION}-linux-amd64.tar"
 	curl -T "build/bin/darwin-amd64/${VERSION}/${APP_NAME}" -u "${ACCESS_KEY}" "https://api.bintray.com/content/darkcrux/generic/consul-alerts/v${VERSION}/consul-alerts-${VERSION}-darwin-386.tar"
+
+image:
+	docker build -t jmcarbo/consul-alerts .

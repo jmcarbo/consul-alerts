@@ -1,7 +1,17 @@
 {
-	"ImportPath": "github.com/AcalephStorage/consul-alerts",
+	"ImportPath": "github.com/jmcarbo/consul-alerts",
 	"GoVersion": "go1.4",
 	"Deps": [
+		{
+			"ImportPath": "github.com/AcalephStorage/consul-alerts/consul",
+			"Comment": "v0.2.0-10-gf77f04b",
+			"Rev": "f77f04b5601446ee21a068c01b38856561507ad6"
+		},
+		{
+			"ImportPath": "github.com/AcalephStorage/consul-alerts/notifier",
+			"Comment": "v0.2.0-10-gf77f04b",
+			"Rev": "f77f04b5601446ee21a068c01b38856561507ad6"
+		},
 		{
 			"ImportPath": "github.com/Sirupsen/logrus",
 			"Comment": "v0.5.1-37-g6ebb4e7",
